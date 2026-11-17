@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="mn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f5faf8">
+    <title>Захиалга | Whale админ самбар</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='brand.css') }}">
+</head>
+<body>
+    <div class="app-shell">
+        {% include "_sidebar.html" %}
+        <div class="workspace">
+            {% include "_topbar.html" %}
+            <main class="dashboard-main">
+                <section class="page-heading">
+                    <div>
+                        <p class="eyebrow">Үйлчилгээний хуваарь</p>
+                        <h1>Захиалгууд</h1>
+                        <p>Ирсэн цаг захиалгуудын мэдээлэл.</p>
+                    </div>
+                    {% if not load_error %}
+                        <span class="draft-count" aria-label="{{ bookings|length }} захиалга">{{ bookings|length }}</span>
+                    {% endif %}
+                </section>
+                {% for message in get_flashed_messages() %}
+                    <p class="alert" role="alert">{{ message }}</p>
+                {% endfor %}
+                {% if load_error %}
+                    <p class="empty-state">Захиалгуудыг ачаалж чадсангүй.</p>
+                {% elif bookings %}
+                    <div class="booking-table-wrap">
+                        <table class="booking-table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Үйлчлүүлэгч</th>
+                                    <th scope="col">И-мэйл</th>
+                                    <th scope="col">Үйлчилгээ</th>
+                                    <th scope="col">Цаг</th>
+                                    <th scope="col">Төлөв</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for booking in bookings %}
+                                    <tr>
+                                        <td class="booking-name">{{ booking.customer_name }}</td>
+                                        <td>{{ booking.customer_email }}</td>
+                                        <td>{{ booking.service_name }}</td>
+                                        <td>{{ booking.starts_at }}</td>
+                                        <td><span class="status">{{ {'pending': 'Хүлээгдэж байна', 'confirmed': 'Баталгаажсан', 'cancelled': 'Цуцалсан', 'completed': 'Дууссан'}.get(booking.status, 'Бусад') }}</span></td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="empty-state">
+                        <strong>Одоогоор захиалга алга.</strong>
+                        <span>Шинэ захиалга ирэхэд энд харагдана.</span>
+                    </div>
+                {% endif %}
+            </main>
+        </div>
+    </div>
+</body>
+</html>

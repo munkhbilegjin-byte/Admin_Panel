@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="mn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f5faf8">
+    <title>{{ config.title }} | Whale админ самбар</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='brand.css') }}">
+</head>
+<body>
+    <div class="app-shell">
+        {% include "_sidebar.html" %}
+        <div class="workspace">
+            {% include "_topbar.html" %}
+            <main class="dashboard-main">
+                <section class="page-heading">
+                    <div>
+                        <p class="eyebrow">Мэдээллийн сан</p>
+                        <h1>{{ config.title }}</h1>
+                        <p>{{ config.title }}-аа хайж, нэмэж, мэдээллийг нь засах боломжтой.</p>
+                    </div>
+                    {% if not load_error %}
+                        <span class="draft-count" aria-label="{{ rows|length }} бүртгэл">{{ rows|length }}</span>
+                    {% endif %}
+                </section>
+                {% for message in get_flashed_messages() %}
+                    <p class="alert" role="alert">{{ message }}</p>
+                {% endfor %}
+                <section class="entity-toolbar">
+                    <form class="search-form" method="get" action="{{ url_for('entity_list', entity=entity) }}">
+                        <label class="visually-hidden" for="entity-search">Хайх үг</label>
+                        <input id="entity-search" name="q" type="search" value="{{ term }}" placeholder="{{ config.title }} хайх">
+                        <button class="secondary-button" type="submit">Хайх</button>
+                        {% if term %}
+                            <a class="clear-search" href="{{ url_for('entity_list', entity=entity) }}">Арилгах</a>
+                        {% endif %}
+                    </form>
+                    <a class="primary-button add-button" href="{{ url_for('entity_new', entity=entity) }}">+ {{ config.title }} нэмэх</a>
+                </section>
+                {% if load_error %}
+                    <div class="empty-state">Мэдээллийг ачаалж чадсангүй. Хүснэгт болон Supabase холболтоо шалгана уу.</div>
+                {% elif rows %}
+                    <div class="booking-table-wrap">
+                        <table class="booking-table entity-table">
+                            <thead>
+                                <tr>
+                                    {% for column in config.columns %}
+                                        <th scope="col">{{ column.label }}</th>
+                                    {% endfor %}
+                                    <th scope="col">Үйлдэл</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for row in rows %}
+                                    <tr>
+                                        {% for column in config.columns %}
+                                            <td>
+                                                {% if entity == 'tours' and column.name == 'price' %}
+                                                    {{ row[column.name] }} ₮
+                                                {% else %}
+                                                    {{ row[column.name] }}
+                                                {% endif %}
+                                            </td>
+                                        {% endfor %}
+                                        <td>
+                                            <div class="row-actions">
+                                                <a class="row-action row-action-edit" href="{{ url_for('entity_edit', entity=entity, item_id=row.id) }}">Засах</a>
+                                                <form method="post" action="{{ url_for('entity_delete', entity=entity, item_id=row.id) }}">
+                                                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                                                    <button class="row-action row-action-delete" type="submit">Устгах</button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="empty-state">
+                        <strong>{% if term %}Хайлтад тохирох мэдээлэл олдсонгүй.{% else %}Одоогоор мэдээлэл алга.{% endif %}</strong>
+                        <span>{% if term %}Өөр үгээр хайж үзнэ үү.{% else %}Шинэ мэдээлэл нэмэхэд энд харагдана.{% endif %}</span>
+                    </div>
+                {% endif %}
+            </main>
+        </div>
+    </div>
+</body>
+</html>

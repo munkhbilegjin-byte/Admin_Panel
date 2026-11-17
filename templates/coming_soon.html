@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="mn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f5faf8">
+    <title>{{ section_title }} | Whale админ самбар</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='brand.css') }}">
+</head>
+<body>
+    <div class="app-shell">
+        {% include "_sidebar.html" %}
+        <div class="workspace">
+            {% include "_topbar.html" %}
+            <main class="dashboard-main">
+                <section class="page-heading">
+                    <div>
+                        <p class="eyebrow">Whale · Админ самбар</p>
+                        <h1>{{ section_title }}</h1>
+                    </div>
+                </section>
+                <div class="coming-soon-card">
+                    <span class="coming-soon-star" aria-hidden="true">✦</span>
+                    <p>Удахгүй</p>
+                </div>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

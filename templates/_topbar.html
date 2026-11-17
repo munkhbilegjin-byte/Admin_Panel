@@ -1,0 +1,19 @@
+<header class="topbar">
+    <div class="topbar-inner">
+        <div class="brand-lockup">
+            <img class="header-logo" src="{{ url_for('static', filename='whale-logo.png') }}" alt="Whale брэндийн лого">
+            <span class="brand-divider" aria-hidden="true"></span>
+            <div>
+                <strong>Админ самбар</strong>
+                <span>Ухаан төлөвшүүлнэ. Үеийг бүтээнэ.</span>
+            </div>
+        </div>
+        <div class="user-actions">
+            <span class="user-email">{{ email }}</span>
+            <form method="post" action="{{ url_for('logout') }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                <button class="logout-button" type="submit">Гарах</button>
+            </form>
+        </div>
+    </div>
+</header>

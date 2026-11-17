@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="mn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f5faf8">
+    <title>Устгах эсэх | Whale админ самбар</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='brand.css') }}">
+</head>
+<body>
+    <div class="app-shell">
+        {% include "_sidebar.html" %}
+        <div class="workspace">
+            {% include "_topbar.html" %}
+            <main class="dashboard-main">
+                <section class="confirm-card">
+                    <p class="eyebrow">Баталгаажуулалт</p>
+                    <h1>Устгахдаа итгэлтэй байна уу?</h1>
+                    <p class="confirm-item">
+                        <strong>{% if entity == 'tours' %}{{ item.name }}{% else %}{{ item.full_name }}{% endif %}</strong>
+                    </p>
+                    <p class="confirm-warning">Устгасны дараа энэ мэдээллийг сэргээх боломжгүй.</p>
+                    <form class="form-actions" method="post" action="{{ url_for('entity_delete', entity=entity, item_id=item.id) }}">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                        <button class="row-action row-action-delete confirm-delete-button" type="submit" name="confirm" value="yes">Тийм, устгах</button>
+                        <button class="secondary-button form-cancel" type="submit" name="confirm" value="no">Болих</button>
+                    </form>
+                </section>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

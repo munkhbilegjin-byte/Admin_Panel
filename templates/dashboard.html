@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="mn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f5faf8">
+    <title>Ноорог нийтлэл | Whale админ самбар</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='brand.css') }}">
+</head>
+<body>
+    <div class="app-shell">
+        {% include "_sidebar.html" %}
+        <div class="workspace">
+            {% include "_topbar.html" %}
+            <main class="dashboard-main">
+                <section class="page-heading">
+                    <div>
+                        <p class="eyebrow">Агуулгын сан</p>
+                        <h1>Ноорог нийтлэлүүд</h1>
+                        <p>Боловсруулж буй нийтлэлүүдээ эндээс хараарай.</p>
+                    </div>
+                    {% if not load_error %}
+                        <span class="draft-count" aria-label="{{ drafts|length }} нийтлэл">{{ drafts|length }}</span>
+                    {% endif %}
+                </section>
+                {% for message in get_flashed_messages() %}
+                    <p class="alert" role="alert">{{ message }}</p>
+                {% endfor %}
+                {% if load_error %}
+                    <p class="empty-state">Мэдээллийг одоогоор ачаалж чадсангүй.</p>
+                {% elif drafts %}
+                    <section class="draft-list" aria-label="Ноорог нийтлэлийн жагсаалт">
+                        {% for draft in drafts %}
+                            <article class="draft-card">
+                                <h2>{{ draft.title }}</h2>
+                                <p>{{ draft.content }}</p>
+                                <div class="draft-meta">
+                                    <span class="status">{{ {'draft': 'Хүлээгдэж буй', 'pending': 'Хүлээгдэж буй', 'approved': 'Баталсан', 'rejected': 'Татгалзсан', 'confirmed': 'Баталгаажсан', 'published': 'Нийтэлсэн', 'archived': 'Архивласан'}.get(draft.status, 'Бусад') }}</span>
+                                    <div class="draft-actions">
+                                        <span>Үүсгэсэн: {{ draft.created_at }}</span>
+                                        {% if draft.status in ('draft', 'pending') %}
+                                            <form method="post" action="{{ url_for('update_draft_status', draft_id=draft.id, action='approve') }}">
+                                                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                                                <button class="draft-action draft-action-approve" type="submit">Батлах</button>
+                                            </form>
+                                            <form method="post" action="{{ url_for('update_draft_status', draft_id=draft.id, action='reject') }}">
+                                                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                                                <button class="draft-action draft-action-reject" type="submit">Татгалзах</button>
+                                            </form>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </article>
+                        {% endfor %}
+                    </section>
+                {% else %}
+                    <div class="empty-state">
+                        <strong>Одоогоор ноорог нийтлэл алга.</strong>
+                        <span>Шинэ нийтлэл нэмэхэд энд харагдана.</span>
+                    </div>
+                {% endif %}
+            </main>
+        </div>
+    </div>
+</body>
+</html>

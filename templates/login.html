@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="mn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f5faf8">
+    <title>Нэвтрэх | Whale админ самбар</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='brand.css') }}">
+</head>
+<body>
+    <main class="login-page">
+        <section class="login-shell" aria-label="Нэвтрэх хэсэг">
+            <div class="login-brand">
+                <img class="login-logo" src="{{ url_for('static', filename='whale-logo.png') }}" alt="Whale брэндийн лого">
+                <p class="brand-note">
+                    <strong>Ухаан төлөвшүүлнэ.<br>Үеийг бүтээнэ.</strong>
+                    <span>Мэдлэг бол ирээдүйн хүч.</span>
+                </p>
+            </div>
+            <div class="login-form-panel">
+                <p class="eyebrow">Whale · Админ самбар</p>
+                <h1>Тавтай морил</h1>
+                <p class="intro">И-мэйл, нууц үгээ оруулж үргэлжлүүлнэ үү.</p>
+                {% for message in get_flashed_messages() %}
+                    <p class="alert" role="alert">{{ message }}</p>
+                {% endfor %}
+                <form method="post">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                    <div class="field">
+                        <label for="email">И-мэйл хаяг</label>
+                        <input id="email" name="email" type="email" autocomplete="username" placeholder="И-мэйл хаягаа оруулна уу" required>
+                    </div>
+                    <div class="field">
+                        <label for="password">Нууц үг</label>
+                        <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Нууц үгээ оруулна уу" required>
+                    </div>
+                    <button class="primary-button" type="submit">Нэвтрэх</button>
+                </form>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

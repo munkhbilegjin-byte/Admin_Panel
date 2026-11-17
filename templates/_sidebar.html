@@ -1,0 +1,39 @@
+<aside class="sidebar">
+    <a class="sidebar-brand" href="{{ url_for('dashboard') }}" aria-label="Whale админ самбарын нүүр">
+        <img src="{{ url_for('static', filename='whale-logo.png') }}" alt="">
+        <span>Ухаан төлөвшүүлнэ.<br>Үеийг бүтээнэ.</span>
+    </a>
+    <nav class="side-nav" aria-label="Үндсэн цэс">
+        <a class="side-nav-link{% if active_section == 'content' %} is-active{% endif %}"
+           href="{{ url_for('dashboard') }}"{% if active_section == 'content' %} aria-current="page"{% endif %}>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4.75h14a1.25 1.25 0 0 1 1.25 1.25v12A1.25 1.25 0 0 1 19 19.25H5A1.25 1.25 0 0 1 3.75 18V6A1.25 1.25 0 0 1 5 4.75ZM7.5 9h9m-9 3.5h9m-9 3.5h5"/></svg>
+            <span>Контент</span>
+        </a>
+        <a class="side-nav-link{% if active_section == 'facebook' %} is-active{% endif %}"
+           href="{{ url_for('facebook') }}"{% if active_section == 'facebook' %} aria-current="page"{% endif %}>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 8.25h3V4.5h-3A5.25 5.25 0 0 0 8.75 9.75v2.5H6v3.75h2.75v4.5h3.75V16h3.25l.75-3.75H12.5v-2.5A1.5 1.5 0 0 1 14 8.25Z"/></svg>
+            <span>Facebook</span>
+        </a>
+        <a class="side-nav-link{% if active_section == 'chat' %} is-active{% endif %}"
+           href="{{ url_for('chat') }}"{% if active_section == 'chat' %} aria-current="page"{% endif %}>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5a7.75 7.75 0 0 1-8 7.5 8.7 8.7 0 0 1-3.3-.64L4 20l1.18-3.76A7.2 7.2 0 0 1 4 12.5 7.75 7.75 0 0 1 12 5a7.75 7.75 0 0 1 8 6.5Z"/><path d="M8.5 12.5h.01m3.49 0h.01m3.49 0h.01"/></svg>
+            <span>Чат</span>
+        </a>
+        <a class="side-nav-link{% if active_section == 'bookings' %} is-active{% endif %}"
+           href="{{ url_for('bookings') }}"{% if active_section == 'bookings' %} aria-current="page"{% endif %}>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.25 4.75h11.5A1.25 1.25 0 0 1 19 6v13.25H5V6a1.25 1.25 0 0 1 1.25-1.25ZM8 3.5v2.5m8-2.5v2.5M5 9h14m-10 3.5 2 2 4-4"/></svg>
+            <span>Захиалга</span>
+        </a>
+        <a class="side-nav-link{% if active_section == 'tours' %} is-active{% endif %}"
+           href="{{ url_for('entity_list', entity='tours') }}"{% if active_section == 'tours' %} aria-current="page"{% endif %}>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3.75 18 5-12 5 12 3.5-8 3 8M3 20.25h18"/></svg>
+            <span>Аялал</span>
+        </a>
+        <a class="side-nav-link{% if active_section == 'staff' %} is-active{% endif %}"
+           href="{{ url_for('entity_list', entity='staff') }}"{% if active_section == 'staff' %} aria-current="page"{% endif %}>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 19.25v-1.5a3.25 3.25 0 0 0-3.25-3.25h-5A3.25 3.25 0 0 0 4 17.75v1.5m5.75-8a3.25 3.25 0 1 0 0-6.5 3.25 3.25 0 0 0 0 6.5Zm5.75-6.1a3.25 3.25 0 0 1 0 6.2m1.5 2h.25a3.25 3.25 0 0 1 3.25 3.25v1.15"/></svg>
+            <span>Ажилтан</span>
+        </a>
+    </nav>
+    <p class="sidebar-motto">Мэдлэг бол ирээдүйн хүч.</p>
+</aside>

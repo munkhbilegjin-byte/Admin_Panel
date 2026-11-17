@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="mn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f5faf8">
+    <title>{{ page_title }} | Whale админ самбар</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='brand.css') }}">
+</head>
+<body>
+    <div class="app-shell">
+        {% include "_sidebar.html" %}
+        <div class="workspace">
+            {% include "_topbar.html" %}
+            <main class="dashboard-main form-page">
+                <p class="eyebrow">{{ config.title }}</p>
+                <h1 class="form-page-title">{{ page_title }}</h1>
+                {% for message in get_flashed_messages() %}
+                    <p class="alert" role="alert">{{ message }}</p>
+                {% endfor %}
+                <form class="entity-form" method="post">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                    {% for field in config.fields %}
+                        <div class="field">
+                            <label for="{{ field.name }}">{{ field.label }}</label>
+                            {% if field.type == 'textarea' %}
+                                <textarea id="{{ field.name }}" name="{{ field.name }}" rows="5" required>{{ values.get(field.name, '') }}</textarea>
+                            {% else %}
+                                <input
+                                    id="{{ field.name }}"
+                                    name="{{ field.name }}"
+                                    type="{{ field.type }}"
+                                    value="{{ values.get(field.name, '') }}"
+                                    {% if field.min is defined %}min="{{ field.min }}"{% endif %}
+                                    {% if field.step is defined %}step="{{ field.step }}"{% endif %}
+                                    required
+                                >
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                    <div class="form-actions">
+                        <button class="primary-button form-submit" type="submit">Хадгалах</button>
+                        <a class="secondary-button form-cancel" href="{{ url_for('entity_list', entity=entity) }}">Болих</a>
+                    </div>
+                </form>
+            </main>
+        </div>
+    </div>
+</body>
+</html>
